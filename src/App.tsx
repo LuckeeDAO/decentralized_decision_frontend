@@ -10,7 +10,6 @@ import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import VotingPage from './pages/VotingPage'
 import NFTPage from './pages/NFTPage'
-import TokenPage from './pages/TokenPage'
 import GovernancePage from './pages/GovernancePage'
 import SettingsPage from './pages/SettingsPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -52,7 +51,6 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/voting" element={<VotingPage />} />
                 <Route path="/nft" element={<NFTPage />} />
-                <Route path="/token" element={<TokenPage />} />
                 <Route path="/governance" element={<GovernancePage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="*" element={<NotFoundPage />} />

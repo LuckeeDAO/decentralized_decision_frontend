@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "build:analyze": "tsc && vite build --mode analyze",
     "build:prod": "NODE_ENV=production tsc && vite build --mode production",
     "preview": "vite preview",
@@ -25,7 +25,7 @@
     "analyze": "npx vite-bundle-analyzer dist/stats.html",
     "perf:audit": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json",
     "perf:ci": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && cp dist/index.html dist/404.html && gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

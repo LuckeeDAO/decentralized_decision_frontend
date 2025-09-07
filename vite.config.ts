@@ -4,6 +4,8 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // GitHub Pages 部署到 /decentralized_decision_frontend/ 子路径
+  base: '/decentralized_decision_frontend/',
   plugins: [
     react({
       // 启用React Fast Refresh
@@ -79,23 +81,12 @@ export default defineConfig({
       output: {
         // 手动代码分割
         manualChunks: {
-          // 核心React库
           vendor: ['react', 'react-dom'],
-          // Material-UI组件库
           mui: ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
-          // 路由相关
           router: ['react-router-dom'],
-          // 状态管理
-          state: ['@reduxjs/toolkit', 'react-redux'],
-          // Web3相关
-          web3: ['web3', 'ethers', '@walletconnect/web3-provider'],
-          // Cosmos相关
-          cosmos: ['@cosmjs/stargate', 'cosmjs-types'],
-          // 工具库
+          state: ['@reduxjs/toolkit', 'react-redux', '@tanstack/react-query'],
           utils: ['lodash', 'date-fns'],
-          // 图表库
           charts: ['recharts'],
-          // 动画库
           animation: ['framer-motion'],
         },
         // 启用chunk文件名优化
@@ -103,11 +94,7 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
-      // 启用外部依赖优化
-      external: (id) => {
-        // 将大型库标记为外部依赖
-        return ['react', 'react-dom'].includes(id);
-      },
+      // 不将 react/react-dom 外部化，避免与 manualChunks 冲突
     },
     // 启用chunk大小警告
     chunkSizeWarningLimit: 1000,
