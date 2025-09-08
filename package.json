@@ -4,7 +4,7 @@
   "description": "Luckee DAO 去中心化决策系统前端",
   "type": "module",
   "private": true,
-  "homepage": "https://luckee-dao-frontend.vercel.app/",
+  "homepage": "https://luckee.cdao.online/",
   "repository": {
     "type": "git",
     "url": "git@github.com:LuckeeDAO/decentralized_decision_frontend.git"

@@ -2,7 +2,7 @@
 
 ## 概述
 
-这是 Luckee DAO 前端项目迁移到 Vercel 的快速实施指南，包含核心步骤和命令。
+这是 Luckee DAO 前端项目迁移到 Vercel 的快速实施指南，包含核心步骤和命令。当前生产域名为：https://luckee.cdao.online/
 
 ## 前置条件
 
@@ -39,7 +39,7 @@ vercel
 # - Set up and deploy? [Y/n] Y
 # - Which scope? [选择个人账户或团队]
 # - Link to existing project? [N] N
-# - What's your project's name? luckee-dao-frontend
+# - What's your project's name? decentralized_decision_frontend
 # - In which directory is your code located? ./
 # - Want to override the settings? [y/N] N
 ```
@@ -305,7 +305,7 @@ vercel remove
 
 ## 部署结果
 
-✅ **生产环境URL**: https://luckee-dao-frontend.vercel.app/
+✅ **生产环境URL**: https://luckee.cdao.online/
 
 ## 总结
 
