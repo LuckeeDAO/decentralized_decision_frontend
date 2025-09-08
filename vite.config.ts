@@ -4,8 +4,6 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // GitHub Pages 部署到 /decentralized_decision_frontend/ 子路径
-  base: '/decentralized_decision_frontend/',
   plugins: [
     react({
       // 启用React Fast Refresh
