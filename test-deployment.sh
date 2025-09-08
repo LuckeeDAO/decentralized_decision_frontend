@@ -2,7 +2,7 @@
 echo "Testing Vercel deployment..."
 
 # 获取部署 URL
-URL="https://decentralizeddecisionfrontend.vercel.app"
+URL="https://luckee-dao-frontend.vercel.app"
 echo "Testing URL: $URL"
 
 # 测试主页

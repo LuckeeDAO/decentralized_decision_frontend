@@ -52,7 +52,6 @@ vercel
 cat > vercel.json << 'EOF'
 {
   "version": 2,
-  "name": "luckee-dao-frontend",
   "builds": [
     {
       "src": "package.json",
@@ -303,6 +302,10 @@ npm run deploy:pages
 # 3. 删除 Vercel 项目（可选）
 vercel remove
 ```
+
+## 部署结果
+
+✅ **生产环境URL**: https://luckee-dao-frontend.vercel.app/
 
 ## 总结
 

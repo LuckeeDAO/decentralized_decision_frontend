@@ -4,6 +4,7 @@
 
 ## 🚀 在线演示
 
+- **Vercel部署**: https://luckee-dao-frontend.vercel.app/
 - **GitHub Pages**: https://luckeedao.github.io/decentralized_decision_frontend/
 - **主仓库**: https://github.com/LuckeeDAO/decentralized_decision
 
@@ -71,9 +72,19 @@ npm run preview
 npm run deploy
 ```
 
+### Vercel部署
+
+项目已部署到Vercel，享受更好的性能和全球CDN：
+
+```bash
+# 部署到Vercel
+vercel --prod
+```
+
+**生产环境**: https://luckee-dao-frontend.vercel.app/
+
 ### 其他平台
 
-- [Vercel](https://vercel.com) - 推荐，更好的性能
 - [Netlify](https://netlify.com) - 支持表单处理
 - [Firebase Hosting](https://firebase.google.com/products/hosting)
 
