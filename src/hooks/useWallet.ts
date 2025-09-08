@@ -33,56 +33,165 @@ export const useWallet = () => {
 
   const connectKeplr = async () => {
     if (typeof window.keplr === 'undefined') {
-      throw new Error('Keplr钱包未安装');
+      throw new Error('Keplr钱包未安装，请先安装Keplr扩展');
     }
 
-    const chainId = 'luckee-dao-1';
-    await window.keplr.enable(chainId);
-    const offlineSigner = window.keplr.getOfflineSigner(chainId);
-    const accounts = await offlineSigner.getAccounts();
-    
-    if (accounts.length > 0) {
-      const address = accounts[0].address;
-      const token = await generateToken(address);
+    try {
+      const chainId = 'luckee-dao-1';
       
-      dispatch(connectWallet({
-        address,
-        chainId,
-        walletType: 'keplr',
-        token,
-      }));
+      // 检查是否支持该链
+      if (!window.keplr.getChainInfosWithoutEndpoints().find(chain => chain.chainId === chainId)) {
+        // 添加自定义链
+        await window.keplr.experimentalSuggestChain({
+          chainId: chainId,
+          chainName: 'Luckee DAO',
+          rpc: 'https://rpc.luckee-dao.com',
+          rest: 'https://rest.luckee-dao.com',
+          bip44: {
+            coinType: 118,
+          },
+          bech32Config: {
+            bech32PrefixAccAddr: 'luckee',
+            bech32PrefixAccPub: 'luckee' + 'pub',
+            bech32PrefixValAddr: 'luckee' + 'valoper',
+            bech32PrefixValPub: 'luckee' + 'valoperpub',
+            bech32PrefixConsAddr: 'luckee' + 'valcons',
+            bech32PrefixConsPub: 'luckee' + 'valconspub',
+          },
+          currencies: [
+            {
+              coinDenom: 'LUCKEE',
+              coinMinimalDenom: 'uluckee',
+              coinDecimals: 6,
+            },
+          ],
+          feeCurrencies: [
+            {
+              coinDenom: 'LUCKEE',
+              coinMinimalDenom: 'uluckee',
+              coinDecimals: 6,
+            },
+          ],
+          stakeCurrency: {
+            coinDenom: 'LUCKEE',
+            coinMinimalDenom: 'uluckee',
+            coinDecimals: 6,
+          },
+        });
+      }
+
+      await window.keplr.enable(chainId);
+      const offlineSigner = window.keplr.getOfflineSigner(chainId);
+      const accounts = await offlineSigner.getAccounts();
       
-      // 获取余额和权限
-      await updateWalletInfo(address);
+      if (accounts.length > 0) {
+        const address = accounts[0].address;
+        const token = await generateToken(address);
+        
+        dispatch(connectWallet({
+          address,
+          chainId,
+          walletType: 'keplr',
+          token,
+        }));
+        
+        // 获取余额和权限
+        await updateWalletInfo(address);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes('User rejected')) {
+          throw new Error('用户取消了连接请求');
+        } else if (error.message.includes('No accounts')) {
+          throw new Error('Keplr钱包中没有账户，请先创建账户');
+        }
+      }
+      throw error;
     }
   };
 
   const connectMetamask = async () => {
     if (typeof window.ethereum === 'undefined') {
-      throw new Error('Metamask钱包未安装');
+      throw new Error('MetaMask钱包未安装，请先安装MetaMask扩展');
     }
 
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    if (accounts.length > 0) {
-      const address = accounts[0];
-      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-      const token = await generateToken(address);
-      
-      dispatch(connectWallet({
-        address,
-        chainId: `0x${parseInt(chainId).toString(16)}`,
-        walletType: 'metamask',
-        token,
-      }));
-      
-      // 获取余额和权限
-      await updateWalletInfo(address);
+    try {
+      // 检查是否已连接
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (accounts.length === 0) {
+        // 请求连接
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+      }
+
+      // 获取当前账户
+      const currentAccounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (currentAccounts.length > 0) {
+        const address = currentAccounts[0];
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        const token = await generateToken(address);
+        
+        dispatch(connectWallet({
+          address,
+          chainId: `0x${parseInt(chainId).toString(16)}`,
+          walletType: 'metamask',
+          token,
+        }));
+        
+        // 获取余额和权限
+        await updateWalletInfo(address);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes('User rejected')) {
+          throw new Error('用户取消了连接请求');
+        } else if (error.message.includes('Already processing')) {
+          throw new Error('MetaMask正在处理其他请求，请稍后再试');
+        }
+      }
+      throw error;
     }
   };
 
   const connectInjective = async () => {
-    // Injective钱包连接逻辑
-    throw new Error('Injective钱包连接功能待实现');
+    try {
+      const injective = (window as any).injective;
+      if (!injective) {
+        throw new Error('Injective钱包未安装，请先安装Injective扩展');
+      }
+
+      // 检查Injective钱包是否可用
+      if (!injective.requestAccounts) {
+        throw new Error('Injective钱包未正确初始化');
+      }
+
+      // 请求连接账户
+      const accounts = await injective.requestAccounts();
+      if (!accounts || accounts.length === 0) {
+        throw new Error('Injective钱包中没有可用账户');
+      }
+
+      const address = accounts[0];
+      const chainId = injective.chainId || 'injective-1';
+      const token = await generateToken(address);
+
+      dispatch(connectWallet({
+        address,
+        chainId,
+        walletType: 'injective',
+        token,
+      }));
+
+      await updateWalletInfo(address);
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes('User rejected')) {
+          throw new Error('用户取消了连接请求');
+        } else if (error.message.includes('No accounts')) {
+          throw new Error('Injective钱包中没有账户，请先创建账户');
+        }
+      }
+      throw error;
+    }
   };
 
   const generateToken = async (address: string): Promise<string> => {

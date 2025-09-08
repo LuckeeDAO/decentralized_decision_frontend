@@ -31,6 +31,7 @@ import {
 } from '@mui/material';
 import { Add, HowToVote, Schedule, CheckCircle, Cancel } from '@mui/icons-material';
 import { useVoting } from '../hooks/useVoting';
+import { useNavigate } from 'react-router-dom';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -55,6 +56,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const VotingPage: React.FC = () => {
+  const navigate = useNavigate();
   const [tabValue, setTabValue] = useState(0);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [newVoting, setNewVoting] = useState({
@@ -268,7 +270,11 @@ const VotingPage: React.FC = () => {
                         </Box>
                       </TableCell>
                       <TableCell>
-                        <Button size="small" variant="outlined">
+                        <Button 
+                          size="small" 
+                          variant="outlined"
+                          onClick={() => navigate(`/voting/${session.id}`)}
+                        >
                           参与投票
                         </Button>
                       </TableCell>
@@ -323,7 +329,11 @@ const VotingPage: React.FC = () => {
                         <Chip label="通过" color="success" size="small" />
                       </TableCell>
                       <TableCell>
-                        <Button size="small" variant="outlined">
+                        <Button 
+                          size="small" 
+                          variant="outlined"
+                          onClick={() => navigate(`/voting/${session.id}`)}
+                        >
                           查看结果
                         </Button>
                       </TableCell>
@@ -374,7 +384,11 @@ const VotingPage: React.FC = () => {
                       <TableCell>{session.endTime}</TableCell>
                       <TableCell>{session.participants}</TableCell>
                       <TableCell>
-                        <Button size="small" variant="outlined">
+                        <Button 
+                          size="small" 
+                          variant="outlined"
+                          onClick={() => navigate(`/voting/${session.id}`)}
+                        >
                           查看详情
                         </Button>
                       </TableCell>

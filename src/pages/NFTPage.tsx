@@ -27,8 +27,10 @@ import {
   Paper,
 } from '@mui/material';
 import { Search, Add, Collections, Visibility, Edit, Delete } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const NFTPage: React.FC = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -273,7 +275,11 @@ const NFTPage: React.FC = () => {
                     </TableCell>
                     <TableCell>{nft.createdAt}</TableCell>
                     <TableCell>
-                      <Button size="small" startIcon={<Visibility />}>
+                      <Button 
+                        size="small" 
+                        startIcon={<Visibility />}
+                        onClick={() => navigate(`/nft/${nft.id}`)}
+                      >
                         查看
                       </Button>
                       <Button size="small" startIcon={<Edit />}>

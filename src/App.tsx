@@ -1,17 +1,26 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Box, ThemeProvider, createTheme } from '@mui/material'
+import { Box, ThemeProvider, createTheme, CircularProgress } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import { store } from './store'
-import Layout from './components/Layout'
-import HomePage from './pages/HomePage'
-import VotingPage from './pages/VotingPage'
-import NFTPage from './pages/NFTPage'
-import GovernancePage from './pages/GovernancePage'
-import SettingsPage from './pages/SettingsPage'
+import ResponsiveLayout from './components/ResponsiveLayout'
+import ErrorBoundary from './components/ErrorBoundary'
+import LazyWrapper from './components/LazyComponent'
+import {
+  LazyHomePage,
+  LazyVotingPage,
+  LazyVotingDetailPage,
+  LazyNFTPage,
+  LazyNFTDetailPage,
+  LazyGovernancePage,
+  LazyGovernanceProposalPage,
+  LazyTokenPage,
+  LazySettingsPage,
+  LazyHelpPage,
+} from './pages/LazyPages'
 
 // 创建React Query客户端
 const queryClient = new QueryClient({
@@ -45,19 +54,28 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Layout>
-              <Routes>
-                <Route index element={<HomePage />} />
-                <Route path="" element={<Navigate to="/" replace />} />
-                <Route path="/index.html" element={<Navigate to="/" replace />} />
-                <Route path="/" element={<HomePage />} />
-                <Route path="/voting" element={<VotingPage />} />
-                <Route path="/nft" element={<NFTPage />} />
-                <Route path="/governance" element={<GovernancePage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Layout>
+            <ResponsiveLayout>
+              <ErrorBoundary>
+                <LazyWrapper>
+                  <Routes>
+                    <Route index element={<LazyHomePage />} />
+                    <Route path="" element={<Navigate to="/" replace />} />
+                    <Route path="/index.html" element={<Navigate to="/" replace />} />
+                    <Route path="/" element={<LazyHomePage />} />
+                    <Route path="/voting" element={<LazyVotingPage />} />
+                    <Route path="/voting/:id" element={<LazyVotingDetailPage />} />
+                    <Route path="/nft" element={<LazyNFTPage />} />
+                    <Route path="/nft/:id" element={<LazyNFTDetailPage />} />
+                    <Route path="/governance" element={<LazyGovernancePage />} />
+                    <Route path="/governance/proposals" element={<LazyGovernanceProposalPage />} />
+                    <Route path="/token" element={<LazyTokenPage />} />
+                    <Route path="/settings" element={<LazySettingsPage />} />
+                    <Route path="/help" element={<LazyHelpPage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </LazyWrapper>
+              </ErrorBoundary>
+            </ResponsiveLayout>
           </Box>
         </ThemeProvider>
       </QueryClientProvider>

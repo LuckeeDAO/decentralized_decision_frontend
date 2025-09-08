@@ -21,7 +21,11 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "test:performance": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html",
+    "test:performance": "node scripts/performance-test.js",
+    "test:performance:lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
     "analyze": "npx vite-bundle-analyzer dist/stats.html",
     "perf:audit": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json",
     "perf:ci": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
@@ -50,6 +54,7 @@
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.22.5",
+    "@playwright/test": "^1.55.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -61,9 +66,11 @@
     "@vitejs/plugin-react": "^3.1.0",
     "@vitest/ui": "^0.29.7",
     "c8": "^7.12.0",
+    "chrome-launcher": "^1.2.0",
     "eslint": "^8.35.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "gh-pages": "^5.0.0",
     "husky": "^8.0.3",
     "jsdom": "^21.1.1",
     "lighthouse": "^10.4.0",
@@ -73,8 +80,7 @@
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vitest": "^0.29.7",
-    "webpack-bundle-analyzer": "^4.9.1",
-    "gh-pages": "^5.0.0"
+    "webpack-bundle-analyzer": "^4.9.1"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

@@ -32,7 +32,8 @@ case $choice in
         echo "📤 推送到GitHub（触发自动部署）..."
         git push origin main
         echo "✅ 代码已推送到main分支，Vercel将自动部署"
-        echo "🌐 生产环境: https://luckee-dao-frontend.vercel.app/"
+        echo "🌐 生产环境: https://luckee.cdao.online/"
+        echo "🌐 Vercel默认域名: https://luckee-dao-frontend.vercel.app/"
         ;;
     2)
         echo "📤 推送当前分支到GitHub..."

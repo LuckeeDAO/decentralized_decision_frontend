@@ -1,11 +1,15 @@
 import React from 'react';
-import { Box, AppBar, Toolbar, Typography, Container, Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Badge, Button } from '@mui/material';
-import { Menu as MenuIcon, Dashboard, HowToVote, Collections, AccountBalance, Settings, Notifications } from '@mui/icons-material';
+import { Box, AppBar, Toolbar, Typography, Container, Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Button } from '@mui/material';
+import { Menu as MenuIcon, Dashboard, HowToVote, Collections, AccountBalance, Settings } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
 import { toggleSidebar, openModal } from '../../store/slices/uiSlice';
 import { useWallet } from '../../hooks/useWallet';
+import WalletConnectModal from '../WalletConnectModal';
+import NotificationsMenu from '../NotificationsMenu';
+import BreadcrumbsBar from '../BreadcrumbsBar';
+import Footer from '../Footer';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -67,9 +71,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Typography variant="body2">
                 余额: {balance} LUCKEE
               </Typography>
-              <Badge badgeContent={unreadNotifications} color="error">
-                <Notifications />
-              </Badge>
+              <NotificationsMenu />
               <Button color="inherit" onClick={disconnect}>
                 断开连接
               </Button>
@@ -151,8 +153,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         <Toolbar />
         <Container maxWidth="lg">
+          <BreadcrumbsBar />
           {children}
+          <Footer />
         </Container>
+        <WalletConnectModal />
       </Box>
     </Box>
   );

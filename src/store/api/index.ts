@@ -43,7 +43,8 @@ export const api = createApi({
     'Governance',
     'Auction',
     'Unlock',
-    'Gas'
+    'Gas',
+    'User'
   ],
   endpoints: (builder) => ({
     // 投票相关API
@@ -197,6 +198,39 @@ export const api = createApi({
       invalidatesTags: ['Auction'],
     }),
     
+    // 用户相关API
+    getUserProfile: builder.query({
+      query: (address) => `/v2/user/profile/${address}`,
+      providesTags: ['User'],
+    }),
+    
+    updateUserProfile: builder.mutation({
+      query: (data) => ({
+        url: '/v2/user/profile',
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['User'],
+    }),
+    
+    getUserPermissions: builder.query({
+      query: (address) => `/v2/user/permissions/${address}`,
+      providesTags: ['User'],
+    }),
+    
+    getUserActivity: builder.query({
+      query: (params = {}) => ({
+        url: '/v2/user/activity',
+        params,
+      }),
+      providesTags: ['User'],
+    }),
+    
+    getUserStats: builder.query({
+      query: (address) => `/v2/user/stats/${address}`,
+      providesTags: ['User'],
+    }),
+
     // 通用API
     getSystemStatus: builder.query({
       query: () => '/v2/common/status',
@@ -234,6 +268,13 @@ export const {
   useGetAuctionBatchesQuery,
   useSubmitSealedBidMutation,
   useRevealBidMutation,
+  
+  // 用户相关
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
+  useGetUserPermissionsQuery,
+  useGetUserActivityQuery,
+  useGetUserStatsQuery,
   
   // 通用
   useGetSystemStatusQuery,

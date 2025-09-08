@@ -41,13 +41,14 @@ npm run deploy:pages
 - **项目名称**: Luckee DAO 去中心化决策系统前端
 - **版本**: 1.0.0
 - **技术栈**: React 18 + TypeScript + Vite + Material-UI
-- **部署地址**: https://luckeedao.github.io/decentralized_decision_frontend/
+- **部署地址**: https://luckee.cdao.online/
+- **Vercel 项目名**: decentralized_decision_frontend
 
 ## 主要功能
 
-1. **投票系统** - 基于比特承诺模型的去中心化投票
-2. **治理模块** - 提案创建、投票、执行管理
-3. **NFT管理** - NFT资产展示和管理
+1. **NFT管理** - NFT资产展示和管理
+2. **投票系统** - 基于比特承诺模型的去中心化投票
+3. **治理模块** - 提案创建、投票、执行管理
 4. **设置中心** - 用户偏好和系统配置
 
 ## 联系方式
