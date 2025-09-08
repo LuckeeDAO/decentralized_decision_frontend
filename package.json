@@ -25,7 +25,8 @@
     "analyze": "npx vite-bundle-analyzer dist/stats.html",
     "perf:audit": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json",
     "perf:ci": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
-    "deploy": "npm run build && cp dist/index.html dist/404.html && gh-pages -d dist"
+    "deploy": "npm run build && cp dist/index.html dist/404.html && gh-pages -d dist",
+    "deploy:pages": "bash ./scripts/deploy-gh-pages.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

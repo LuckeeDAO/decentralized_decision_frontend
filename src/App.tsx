@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Box, ThemeProvider, createTheme } from '@mui/material'
@@ -12,7 +12,6 @@ import VotingPage from './pages/VotingPage'
 import NFTPage from './pages/NFTPage'
 import GovernancePage from './pages/GovernancePage'
 import SettingsPage from './pages/SettingsPage'
-import NotFoundPage from './pages/NotFoundPage'
 
 // 创建React Query客户端
 const queryClient = new QueryClient({
@@ -48,12 +47,15 @@ function App() {
           <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Layout>
               <Routes>
+                <Route index element={<HomePage />} />
+                <Route path="" element={<Navigate to="/" replace />} />
+                <Route path="/index.html" element={<Navigate to="/" replace />} />
                 <Route path="/" element={<HomePage />} />
                 <Route path="/voting" element={<VotingPage />} />
                 <Route path="/nft" element={<NFTPage />} />
                 <Route path="/governance" element={<GovernancePage />} />
                 <Route path="/settings" element={<SettingsPage />} />
-                <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Layout>
           </Box>
