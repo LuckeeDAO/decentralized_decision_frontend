@@ -2,7 +2,7 @@
 echo "Testing Vercel deployment..."
 
 # 获取部署 URL
-URL="https://decentralizeddecisionfrontend-lekywzh7y-iunknow588s-projects.vercel.app"
+URL="https://decentralizeddecisionfrontend.vercel.app"
 echo "Testing URL: $URL"
 
 # 测试主页
