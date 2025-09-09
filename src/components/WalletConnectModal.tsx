@@ -18,13 +18,13 @@ const WalletConnectModal: React.FC = () => {
   const handleConnect = async (type: 'keplr' | 'metamask' | 'injective') => {
     try {
       dispatch(setLoading({ key: 'wallet', value: true }));
-      await connect(type);
+      const addr = await connect(type);
       // 成功提示
-      if (wallet.address) {
+      if (addr) {
         dispatch(addNotification({
           type: 'success',
           title: '钱包连接成功',
-          message: `${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`,
+          message: `${addr.slice(0, 6)}...${addr.slice(-4)}`,
           duration: 3000,
         }));
       } else {

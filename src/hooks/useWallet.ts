@@ -13,17 +13,18 @@ export const useWallet = () => {
   const dispatch = useDispatch();
   const wallet = useSelector((state: RootState) => state.wallet);
 
-  const connect = useCallback(async (walletType: 'keplr' | 'metamask' | 'injective') => {
+  const connect = useCallback(async (walletType: 'keplr' | 'metamask' | 'injective'): Promise<string | null> => {
     try {
       dispatch(setWalletError(null));
       
       if (walletType === 'keplr') {
-        await connectKeplr();
+        return await connectKeplr();
       } else if (walletType === 'metamask') {
-        await connectMetamask();
+        return await connectMetamask();
       } else if (walletType === 'injective') {
-        await connectInjective();
+        return await connectInjective();
       }
+      return null;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : '连接钱包失败';
       dispatch(setWalletError(errorMessage));
@@ -31,7 +32,7 @@ export const useWallet = () => {
     }
   }, [dispatch]);
 
-  const connectKeplr = async () => {
+  const connectKeplr = async (): Promise<string | null> => {
     if (typeof window.keplr === 'undefined') {
       throw new Error('Keplr钱包未安装，请先安装Keplr扩展');
     }
@@ -97,7 +98,9 @@ export const useWallet = () => {
         
         // 获取余额和权限
         await updateWalletInfo(address);
+        return address;
       }
+      return null;
     } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes('User rejected')) {
@@ -110,7 +113,7 @@ export const useWallet = () => {
     }
   };
 
-  const connectMetamask = async () => {
+  const connectMetamask = async (): Promise<string | null> => {
     if (typeof window.ethereum === 'undefined') {
       throw new Error('MetaMask钱包未安装，请先安装MetaMask扩展');
     }
@@ -139,7 +142,9 @@ export const useWallet = () => {
         
         // 获取余额和权限
         await updateWalletInfo(address);
+        return address;
       }
+      return null;
     } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes('User rejected')) {
@@ -152,7 +157,7 @@ export const useWallet = () => {
     }
   };
 
-  const connectInjective = async () => {
+  const connectInjective = async (): Promise<string | null> => {
     try {
       const injective = (window as any).injective;
       if (!injective) {
@@ -182,6 +187,7 @@ export const useWallet = () => {
       }));
 
       await updateWalletInfo(address);
+      return address;
     } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes('User rejected')) {
