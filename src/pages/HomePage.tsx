@@ -168,14 +168,14 @@ const HomePage: React.FC = () => {
                 快速操作
               </Typography>
               <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Button variant="outlined" fullWidth>
+                  查看NFT
+                </Button>
                 <Button variant="contained" fullWidth>
                   创建投票
                 </Button>
                 <Button variant="outlined" fullWidth>
                   参与治理
-                </Button>
-                <Button variant="outlined" fullWidth>
-                  查看NFT
                 </Button>
                 <Button variant="outlined" fullWidth>
                   代币管理
