@@ -23,7 +23,7 @@ import {
   DialogActions,
   Alert
 } from '@mui/material';
-import { Lock, Unlock, History, TrendingUp } from '@mui/icons-material';
+import { Lock, LockOpen, History, TrendingUp } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { useGetTokenBalanceQuery, useStakeTokenMutation, useUnstakeTokenMutation } from '../store/api';
@@ -231,7 +231,7 @@ const TokenPage: React.FC = () => {
                   </Typography>
                   <Button
                     variant="outlined"
-                    startIcon={<Unlock />}
+                    startIcon={<LockOpen />}
                     sx={{ mt: 2 }}
                     disabled
                   >
