@@ -131,13 +131,15 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({ children }) => {
               </Button>
             </Box>
           ) : (
-            <Button 
-              color="inherit" 
-              onClick={handleWalletConnect}
-              size={isMobile ? "small" : "medium"}
-            >
-              {isMobile ? '连接' : '连接钱包'}
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Button 
+                color="inherit" 
+                onClick={handleWalletConnect}
+                size={isMobile ? "small" : "medium"}
+              >
+                {isMobile ? '连接' : '连接钱包'}
+              </Button>
+            </Box>
           )}
         </Toolbar>
       </AppBar>

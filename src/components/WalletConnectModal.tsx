@@ -2,13 +2,14 @@ import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { closeModal, setLoading } from '../store/slices/uiSlice';
+import { closeModal, setLoading, addNotification } from '../store/slices/uiSlice';
 import { useWallet } from '../hooks/useWallet';
 
 const WalletConnectModal: React.FC = () => {
   const dispatch = useDispatch();
   const open = useSelector((state: RootState) => state.ui.modals.walletConnect);
   const { connect } = useWallet();
+  const wallet = useSelector((state: RootState) => state.wallet);
 
   const handleClose = () => {
     dispatch(closeModal('walletConnect'));
@@ -18,9 +19,30 @@ const WalletConnectModal: React.FC = () => {
     try {
       dispatch(setLoading({ key: 'wallet', value: true }));
       await connect(type);
+      // 成功提示
+      if (wallet.address) {
+        dispatch(addNotification({
+          type: 'success',
+          title: '钱包连接成功',
+          message: `${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`,
+          duration: 3000,
+        }));
+      } else {
+        dispatch(addNotification({
+          type: 'success',
+          title: '钱包连接成功',
+          message: '已连接钱包',
+          duration: 3000,
+        }));
+      }
       handleClose();
     } catch (e) {
-      // 错误交由 hook 内部处理及通知
+      dispatch(addNotification({
+        type: 'error',
+        title: '钱包连接失败',
+        message: e instanceof Error ? e.message : '连接失败',
+        duration: 4000,
+      }));
     } finally {
       dispatch(setLoading({ key: 'wallet', value: false }));
     }
