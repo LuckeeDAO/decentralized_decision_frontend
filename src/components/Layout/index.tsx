@@ -24,8 +24,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const menuItems = [
     { text: '仪表板', icon: <Dashboard />, path: '/' },
-    { text: '投票管理', icon: <HowToVote />, path: '/voting' },
     { text: 'NFT管理', icon: <Collections />, path: '/nft' },
+    { text: '投票管理', icon: <HowToVote />, path: '/voting' },
     { text: '代币管理', icon: <AccountBalance />, path: '/token' },
     { text: '治理', icon: <HowToVote />, path: '/governance' },
     { text: '设置', icon: <Settings />, path: '/settings' },
