@@ -6,7 +6,6 @@ import {
   CardContent,
   CardMedia,
   CardActions,
-  Button,
   Grid,
   Chip,
   Checkbox,

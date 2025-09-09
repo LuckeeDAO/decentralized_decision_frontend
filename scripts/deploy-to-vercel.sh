@@ -32,8 +32,8 @@ case $choice in
         echo "📤 推送到GitHub（触发自动部署）..."
         git push origin main
         echo "✅ 代码已推送到main分支，Vercel将自动部署"
-        echo "🌐 生产环境: https://luckee.cdao.online/"
-        echo "🌐 Vercel默认域名: https://luckee-dao-frontend.vercel.app/"
+        echo "🌐 当前可用域名: https://decentralizeddecisionfrontend-iunknow588s-projects.vercel.app/"
+        echo "⚠️  注意: 自定义域名 luckee.cdao.online 需要单独配置"
         ;;
     2)
         echo "📤 推送当前分支到GitHub..."
@@ -42,7 +42,10 @@ case $choice in
         ;;
     3)
         echo "🚀 直接部署到Vercel..."
-        vercel --prod
+        echo "🔄 清理旧配置..."
+        rm -rf .vercel
+        echo "🚀 重新部署到Vercel..."
+        vercel --prod --yes
         echo "✅ 直接部署完成"
         ;;
     *)
