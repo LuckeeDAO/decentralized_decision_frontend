@@ -46,58 +46,63 @@ const BlindBoxStatus: React.FC = () => {
     
     try {
       // 首先尝试健康检查接口
-      let response;
-      let isHealthCheck = false;
-      
-      try {
-        response = await fetch('https://blindbox.cdao.online/api/health', {
-          method: 'GET',
-          mode: 'cors',
-          cache: 'no-cache',
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-        isHealthCheck = true;
-      } catch (healthError) {
-        // 如果健康检查失败，尝试访问主页
-        response = await fetch('https://blindbox.cdao.online/', {
-          method: 'GET',
-          mode: 'cors',
-          cache: 'no-cache',
-        });
-        isHealthCheck = false;
-      }
+      const healthResponse = await fetch('https://blindbox.cdao.online/api/health', {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
       
       const responseTime = Date.now() - startTime;
       
-      if (response.ok) {
-        // 如果是健康检查接口且返回200，说明系统完全正常
-        if (isHealthCheck) {
-          setStatus({
-            isOnline: true,
-            status: 'online',
-            lastChecked: new Date(),
-            responseTime,
-          });
-        } else {
-          // 如果只是主页可以访问，说明系统基本正常但API可能有问题
-          setStatus({
-            isOnline: true,
-            status: 'online',
-            lastChecked: new Date(),
-            responseTime,
-            error: 'API接口暂不可用，但系统运行正常',
-          });
-        }
-      } else {
+      if (healthResponse.ok) {
+        // 健康检查接口正常
         setStatus({
-          isOnline: false,
-          status: 'error',
+          isOnline: true,
+          status: 'online',
           lastChecked: new Date(),
           responseTime,
-          error: `HTTP ${response.status}`,
         });
+      } else {
+        // 健康检查接口不可用，尝试检查主页
+        try {
+          const homeResponse = await fetch('https://blindbox.cdao.online/', {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+          });
+          
+          if (homeResponse.ok) {
+            // 主页可以访问，系统基本正常
+            setStatus({
+              isOnline: true,
+              status: 'online',
+              lastChecked: new Date(),
+              responseTime,
+              error: 'API接口暂不可用，但系统运行正常',
+            });
+          } else {
+            // 主页也无法访问
+            setStatus({
+              isOnline: false,
+              status: 'error',
+              lastChecked: new Date(),
+              responseTime,
+              error: `主页返回 HTTP ${homeResponse.status}`,
+            });
+          }
+        } catch (homeError) {
+          // 主页访问失败
+          setStatus({
+            isOnline: false,
+            status: 'offline',
+            lastChecked: new Date(),
+            responseTime,
+            error: '无法连接到盲盒系统',
+          });
+        }
       }
     } catch (error) {
       const responseTime = Date.now() - startTime;
